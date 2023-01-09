@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="Prop" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 8
+
+[node name="Sprite" type="Sprite" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://dat/sprites/player/Body.png" type="Texture" id=1]
+[ext_resource path="res://dat/sprites/player/Gun.png" type="Texture" id=2]
+[ext_resource path="res://src/player/Player.gd" type="Script" id=3]
+[ext_resource path="res://dat/sprites/player/powerEmpty.png" type="Texture" id=4]
+[ext_resource path="res://dat/sprites/player/powerFull.png" type="Texture" id=5]
+[ext_resource path="res://dat/sound/bullets/bullet_shot.wav" type="AudioStream" id=6]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.158273, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -3.614, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.486275, 1 )
+colors = PoolColorArray( 0.170898, 0.170898, 0.170898, 1, 0.495117, 0.495117, 0.495117, 1, 1, 1, 1, 1 )
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 3 )
+
+[node name="Body" type="Sprite" parent="."]
+position = Vector2( 0, -40 )
+z_index = 1
+texture = ExtResource( 1 )
+
+[node name="Gun" type="Node2D" parent="."]
+position = Vector2( 0, -32 )
+
+[node name="Gun" type="Sprite" parent="Gun"]
+position = Vector2( 64, 7.62939e-06 )
+texture = ExtResource( 2 )
+
+[node name="Muzzle" type="Position2D" parent="Gun"]
+position = Vector2( 128, 7.31287e-07 )
+
+[node name="Power" type="TextureProgress" parent="Gun"]
+margin_left = 136.0
+margin_top = -48.0
+margin_right = 316.0
+margin_bottom = 48.0
+value = 50.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+
+[node name="ShootFX" type="CPUParticles2D" parent="Gun"]
+position = Vector2( 128, 0 )
+z_index = 2
+emitting = false
+amount = 64
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.5
+spread = 30.0
+gravity = Vector2( 0, 25 )
+initial_velocity = 256.0
+initial_velocity_random = 1.0
+scale_amount = 3.0
+scale_amount_curve = SubResource( 2 )
+color_initial_ramp = SubResource( 1 )
+
+[node name="ShootSND" type="AudioStreamPlayer" parent="Gun"]
+stream = ExtResource( 6 )
+bus = "Player"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -80, 0, -80, -16, -72, -16, -56, -40, -24, -56, 24, -56, 56, -40, 72, -16, 80, -16, 80, 0 )
